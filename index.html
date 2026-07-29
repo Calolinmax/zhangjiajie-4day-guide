@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>张家界四日游 · 可视化路线图</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  :root {
+    --day1: #E85D3A;
+    --day2: #3B82C4;
+    --day3: #2D8B5E;
+    --day4: #7B4FBF;
+    --surface: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+      "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+    background: #f5f5f5;
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    box-shadow: var(--shadow);
+    z-index: 1000;
+  }
+  .header h1 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .header .icon { font-size: 1.4rem; }
+  .header .subtitle {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* ── Layout ── */
+  .main-wrap {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 320px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.04);
+    z-index: 500;
+  }
+
+  .day-card {
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    background: var(--surface);
+    user-select: none;
+  }
+  .day-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+  }
+  .day-card.active {
+    border-color: currentColor;
+    box-shadow: 0 0 0 2px color-mix(in srgb, currentColor 20%, transparent);
+  }
+  .day-card .day-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    color: #fff;
+  }
+  .day-card .day-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 3px;
+    line-height: 1.4;
+  }
+  .day-card .day-route {
+    font-size: 0.74rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .day-card .day-stops {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .day-card .stop-tag {
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    border-radius: 12px;
+    background: #f3f4f6;
+    color: var(--muted);
+  }
+
+  /* ── Map ── */
+  #map {
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* ── Legend bar ── */
+  .legend-bar {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 8px 16px;
+    display: flex;
+    gap: 16px;
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    font-size: 0.76rem;
+    font-weight: 500;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+    flex-shrink: 0;
+  }
+
+  /* ── Leaflet overrides ── */
+  .leaflet-container {
+    font-family: inherit;
+    background: #f0f0f0;
+  }
+  .custom-marker {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2.5px solid #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .popup-content {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .popup-content strong {
+    font-size: 0.9rem;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .main-wrap { flex-direction: column; }
+    .sidebar {
+      width: 100%;
+      max-height: 35vh;
+      flex-shrink: 0;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 8px;
+      overflow-y: auto;
+    }
+    .day-card {
+      flex: 1 1 calc(50% - 6px);
+      min-width: 140px;
+      padding: 8px 10px;
+    }
+    .day-card .day-route { font-size: 0.7rem; }
+    .day-card .day-stops { display: none; }
+    .legend-bar { font-size: 0.7rem; gap: 8px; padding: 6px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span class="icon">🏔️</span>张家界四日游 · 可视化路线图</h1>
+  <span class="subtitle">点击左侧日期卡片切换图层 | 按 1-4 快捷键 | 滚轮缩放</span>
+</div>
+
+<div class="main-wrap">
+
+  <!-- ═══════ Sidebar ═══════ -->
+  <div class="sidebar" id="sidebar">
+
+    <div class="day-card active" data-day="1" style="color: var(--day1);" onclick="toggleDay(1)">
+      <span class="day-badge" style="background:var(--day1)">📍 Day 1 · 抵达 + 天门山</span>
+      <div class="day-title">天门山国家森林公园 + 七十二奇楼</div>
+      <div class="day-route">张家界西站 → 天门山附近酒店 → 索道上山 → 山顶·玻璃栈道 → 天门洞 → 99道弯下山 → 晚上·七十二奇楼夜景</div>
+      <div class="day-stops">
+        <span class="stop-tag">① 西站</span><span class="stop-tag">② 酒店/索道站</span>
+        <span class="stop-tag">③ 山顶·玻璃栈道</span><span class="stop-tag">④ 天门洞</span>
+        <span class="stop-tag">⑤ 七十二奇楼</span>
+      </div>
+    </div>
+
+    <div class="day-card active" data-day="2" style="color: var(--day2);" onclick="toggleDay(2)">
+      <span class="day-badge" style="background:var(--day2)">📍 Day 2 · 武陵源（上）</span>
+      <div class="day-title">阿凡达奇幻世界</div>
+      <div class="day-route">东门 → 百龙天梯 → 袁家界(乾坤柱) → 杨家界(天然长城) → 天子山索道下山 → 十里画廊 → 住武陵源</div>
+      <div class="day-stops">
+        <span class="stop-tag">① 东门</span><span class="stop-tag">② 百龙天梯</span>
+        <span class="stop-tag">③ 袁家界</span><span class="stop-tag">④ 杨家界</span>
+        <span class="stop-tag">⑤ 天子山索道</span><span class="stop-tag">⑥ 十里画廊</span>
+      </div>
+    </div>
+
+    <div class="day-card active" data-day="3" style="color: var(--day3);" onclick="toggleDay(3)">
+      <span class="day-badge" style="background:var(--day3)">📍 Day 3 · 武陵源（下）</span>
+      <div class="day-title">峡谷徒步 + 仙境吸氧</div>
+      <div class="day-route">武陵源出发 → 南门 → 黄石寨索道 → 金鞭溪漫步 → 回武陵源</div>
+      <div class="day-stops">
+        <span class="stop-tag">① 南门</span><span class="stop-tag">② 黄石寨</span>
+        <span class="stop-tag">③ 金鞭溪</span>
+      </div>
+    </div>
+
+    <div class="day-card active" data-day="4" style="color: var(--day4);" onclick="toggleDay(4)">
+      <span class="day-badge" style="background:var(--day4)">📍 Day 4 · 大峡谷 → 返程</span>
+      <div class="day-title">张家界大峡谷 + 玻璃桥</div>
+      <div class="day-route">武陵源出发 → 大峡谷 → 云天渡玻璃桥 → 峡谷徒步/滑索 → 返回张家界西站 → 返程</div>
+      <div class="day-stops">
+        <span class="stop-tag">① 大峡谷</span><span class="stop-tag">② 玻璃桥</span>
+        <span class="stop-tag">③ 滑索</span>
+      </div>
+    </div>
+
+    <div style="margin-top: auto; padding: 10px; background: #f9fafb; border-radius: 8px; font-size: 0.7rem; color: var(--muted); line-height: 1.6;">
+      <strong>💡 提示</strong><br>
+      · 坐标来源：OpenStreetMap Nominatim<br>
+      · 地图数据：OpenStreetMap 贡献者<br>
+      · 键盘 1-4 可快速切换日期图层<br>
+      · 点击圆形标记查看景点详情
+    </div>
+  </div>
+
+  <!-- ═══════ Map ═══════ -->
+  <div id="map"></div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ─────────────────────────────────────
+//  坐标来源：OpenStreetMap Nominatim API 查询 + Wikipedia 交叉验证
+//  坐标系统：WGS-84（与 OSM 地图瓦片一致）
+// ─────────────────────────────────────
+
+const DAYS = {
+  1: { color: '#E85D3A', name: 'Day 1 · 天门山+奇楼' },
+  2: { color: '#3B82C4', name: 'Day 2 · 武陵源（上）' },
+  3: { color: '#2D8B5E', name: 'Day 3 · 武陵源（下）' },
+  4: { color: '#7B4FBF', name: 'Day 4 · 大峡谷 → 返程' },
+};
+
+// ── 所有地点坐标（已用 Nominatim 校准）──
+const LOC = {
+  // ═══ Day 1: 抵达 + 天门山 + 七十二奇楼 ═══
+  zjjWest:      { lat: 29.1714, lng: 110.4580, label: '张家界西站（高铁站）',     sub: '抵达张家界 · 前往天门山附近酒店', day: 1 },
+  zjjCity:      { lat: 29.1170, lng: 110.4820, label: '天门山附近酒店 / 市区',     sub: '永定区 · 安顿行李 · Day 1 住宿', day: 1 },
+  tmsCableLow:  { lat: 29.1149, lng: 110.4784, label: '天门山索道下站',           sub: 'A线入口 · 7455米亚洲最长高山索道', day: 1 },
+  tmsTop:       { lat: 29.0827, lng: 110.4776, label: '天门山山顶',              sub: '玻璃栈道 · 鬼谷栈道 · 东西线游览', day: 1 },
+  tmsCave:      { lat: 29.0514, lng: 110.4827, label: '天门洞',                 sub: '世界海拔最高天然穿山溶洞 · 999级天梯', day: 1 },
+  tower72:      { lat: 29.1476, lng: 110.4508, label: '七十二奇楼',              sub: '武陵山大道1号 · 夜景灯光秀 · 特色美食街', day: 1 },
+
+  // ═══ Day 2: 武陵源（上）═══
+  wlyEastGate:  { lat: 29.3485, lng: 110.5500, label: '武陵源东门（标志门）',    sub: 'Day 2 主入口 · 军地坪街道', day: 2 },
+  bailong:      { lat: 29.3512, lng: 110.4612, label: '百龙天梯（下站）',       sub: '垂直高差335米 · 世界最高户外电梯', day: 2 },
+  yuanjiajie:   { lat: 29.3530, lng: 110.4480, label: '袁家界 · 乾坤柱',       sub: '《阿凡达》悬浮山原型 · 迷魂台', day: 2 },
+  yangjiajie:   { lat: 29.3561, lng: 110.4116, label: '杨家界 · 天然长城',      sub: '峰墙奇观 · 乌龙寨 · 一步登天', day: 2 },
+  tianziCable:  { lat: 29.3862, lng: 110.5008, label: '天子山索道（下站）',      sub: '索道下山 · 俯瞰西海峰林', day: 2 },
+  shiliGallery: { lat: 29.3620, lng: 110.4887, label: '十里画廊',              sub: '峡谷观光小火车 · 奇峰异石 · 采药老人', day: 2 },
+
+  // ═══ Day 3: 武陵源（下）═══
+  southGate:    { lat: 29.3090, lng: 110.4275, label: '森林公园南门（锣鼓塔）',   sub: 'Day 3 入口 · 传统正门', day: 3 },
+  huangshiTop:  { lat: 29.3327, lng: 110.4256, label: '黄石寨山顶',           sub: '不到黄石寨 · 枉来张家界 · 峰林全景最佳观景台', day: 3 },
+  goldenWhip:   { lat: 29.3339, lng: 110.4389, label: '金鞭溪',              sub: '天然大氧吧 · 溪水清澈 · 峡谷徒步精华段', day: 3 },
+
+  // ═══ Day 4: 大峡谷 + 返程 ═══
+  grandCanyon:  { lat: 29.4119, lng: 110.6937, label: '张家界大峡谷',          sub: '慈利县 · 峡谷徒步 · 瀑布溪流', day: 4 },
+  glassBridge:  { lat: 29.3987, lng: 110.6982, label: '云天渡玻璃桥',          sub: '长430米 · 高300米 · 世界最长最高玻璃桥', day: 4 },
+  zipline:      { lat: 29.4060, lng: 110.6880, label: '高空滑索 / 体验项目',     sub: '可选：滑索 · 滑道 · 游船 · 蹦极(1998元)', day: 4 },
+
+  // ═══ 住宿 / 交通节点 ═══
+  wlyHotel:     { lat: 29.3488, lng: 110.5457, label: '武陵源城区（军地坪）',    sub: 'Day 2/3 住宿 · 餐饮集中 · 近东门', day: 2 },
+};
+
+// ── 路线（按顺序连接）──
+const ROUTES = {
+  1: [
+    // 西站 → 天门山附近酒店/市区
+    [[LOC.zjjWest.lat, LOC.zjjWest.lng],
+     [LOC.zjjCity.lat, LOC.zjjCity.lng]],
+    // 酒店 → 索道下站
+    [[LOC.zjjCity.lat, LOC.zjjCity.lng],
+     [LOC.tmsCableLow.lat, LOC.tmsCableLow.lng]],
+    // 索道下站 → 山顶（缆车）
+    [[LOC.tmsCableLow.lat, LOC.tmsCableLow.lng],
+     [LOC.tmsTop.lat, LOC.tmsTop.lng]],
+    // 山顶 → 天门洞
+    [[LOC.tmsTop.lat, LOC.tmsTop.lng],
+     [LOC.tmsCave.lat, LOC.tmsCave.lng]],
+    // 天门洞 → 回酒店/市区（99道弯下山）
+    [[LOC.tmsCave.lat, LOC.tmsCave.lng],
+     [LOC.zjjCity.lat, LOC.zjjCity.lng]],
+    // 晚上：酒店 → 七十二奇楼
+    [[LOC.zjjCity.lat, LOC.zjjCity.lng],
+     [LOC.tower72.lat, LOC.tower72.lng]],
+  ],
+  2: [
+    // 东门 → 百龙天梯（景区内公路）
+    [[LOC.wlyEastGate.lat, LOC.wlyEastGate.lng],
+     [LOC.bailong.lat, LOC.bailong.lng]],
+    // 百龙天梯 → 袁家界（山顶环保车）
+    [[LOC.bailong.lat, LOC.bailong.lng],
+     [LOC.yuanjiajie.lat, LOC.yuanjiajie.lng]],
+    // 袁家界 → 杨家界（山顶环保车）
+    [[LOC.yuanjiajie.lat, LOC.yuanjiajie.lng],
+     [LOC.yangjiajie.lat, LOC.yangjiajie.lng]],
+    // 杨家界 → 天子山索道（山顶环保车）
+    [[LOC.yangjiajie.lat, LOC.yangjiajie.lng],
+     [LOC.tianziCable.lat, LOC.tianziCable.lng]],
+    // 索道下山 → 十里画廊
+    [[LOC.tianziCable.lat, LOC.tianziCable.lng],
+     [LOC.shiliGallery.lat, LOC.shiliGallery.lng]],
+    // 十里画廊 → 回酒店
+    [[LOC.shiliGallery.lat, LOC.shiliGallery.lng],
+     [LOC.wlyHotel.lat, LOC.wlyHotel.lng]],
+  ],
+  3: [
+    // 武陵源酒店 → 森林公园南门
+    [[LOC.wlyHotel.lat, LOC.wlyHotel.lng],
+     [LOC.southGate.lat, LOC.southGate.lng]],
+    // 南门 → 黄石寨（索道上山）
+    [[LOC.southGate.lat, LOC.southGate.lng],
+     [LOC.huangshiTop.lat, LOC.huangshiTop.lng]],
+    // 黄石寨 → 金鞭溪（下山后步行）
+    [[LOC.huangshiTop.lat, LOC.huangshiTop.lng],
+     [LOC.goldenWhip.lat, LOC.goldenWhip.lng]],
+    // 金鞭溪 → 回武陵源酒店
+    [[LOC.goldenWhip.lat, LOC.goldenWhip.lng],
+     [LOC.wlyHotel.lat, LOC.wlyHotel.lng]],
+  ],
+  4: [
+    // 武陵源 → 大峡谷
+    [[LOC.wlyHotel.lat, LOC.wlyHotel.lng],
+     [LOC.grandCanyon.lat, LOC.grandCanyon.lng]],
+    // 大峡谷 → 玻璃桥
+    [[LOC.grandCanyon.lat, LOC.grandCanyon.lng],
+     [LOC.glassBridge.lat, LOC.glassBridge.lng]],
+    // 玻璃桥 → 滑索
+    [[LOC.glassBridge.lat, LOC.glassBridge.lng],
+     [LOC.zipline.lat, LOC.zipline.lng]],
+    // 回西站（返程）
+    [[LOC.zipline.lat, LOC.zipline.lng],
+     [LOC.zjjWest.lat, LOC.zjjWest.lng]],
+  ],
+};
+
+// ── Map init ──
+const map = L.map('map', {
+  center: [29.22, 110.53],
+  zoom: 11,
+  zoomControl: true,
+});
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  maxZoom: 19,
+}).addTo(map);
+
+// ── Layer groups ──
+const routeLayers = {};
+const markerLayers = {};
+
+for (const d of [1, 2, 3, 4]) {
+  routeLayers[d] = L.layerGroup().addTo(map);
+  markerLayers[d] = L.layerGroup().addTo(map);
+}
+
+// ── Custom icon factory ──
+function makeIcon(color, num) {
+  return L.divIcon({
+    className: '',
+    html: `<div class="custom-marker" style="background:${color}">${num}</div>`,
+    iconSize: [26, 26],
+    iconAnchor: [13, 13],
+    popupAnchor: [0, -14],
+  });
+}
+
+// ── Counters per day for sequential numbering ──
+const counters = { 1: 0, 2: 0, 3: 0, 4: 0 };
+
+// ── Add markers ──
+for (const [key, loc] of Object.entries(LOC)) {
+  const day = loc.day;
+  counters[day]++;
+  const color = DAYS[day].color;
+  const num = counters[day];
+
+  const marker = L.marker([loc.lat, loc.lng], {
+    icon: makeIcon(color, num),
+    title: loc.label,
+  }).bindPopup(`
+    <div class="popup-content">
+      <strong style="color:${color}">${loc.label}</strong><br>
+      <span style="color:#6b7280;font-size:0.75rem">${loc.sub}</span><br>
+      <span style="font-size:0.65rem;color:#9ca3af">${loc.lat.toFixed(4)}, ${loc.lng.toFixed(4)}</span>
+    </div>
+  `);
+
+  marker.addTo(markerLayers[day]);
+}
+
+// ── Add route polylines ──
+for (const [day, segments] of Object.entries(ROUTES)) {
+  for (const seg of segments) {
+    L.polyline(seg, {
+      color: DAYS[day].color,
+      weight: 3.5,
+      opacity: 0.7,
+      lineJoin: 'round',
+      lineCap: 'round',
+    }).addTo(routeLayers[day]);
+  }
+}
+
+// ── Add dashed directional hints for cable car / long transfer segments ──
+// Day 1: cable car (索道) = dashed
+L.polyline(
+  [[LOC.tmsCableLow.lat, LOC.tmsCableLow.lng],
+   [LOC.tmsTop.lat, LOC.tmsTop.lng]],
+  { color: DAYS[1].color, weight: 3, opacity: 0.55, dashArray: '10 6', lineJoin: 'round' }
+).addTo(routeLayers[1]);
+
+// Day 4: long transfer → back to 西站
+L.polyline(
+  [[LOC.zipline.lat, LOC.zipline.lng],
+   [LOC.zjjWest.lat, LOC.zjjWest.lng]],
+  { color: DAYS[4].color, weight: 3, opacity: 0.5, dashArray: '10 6', lineJoin: 'round' }
+).addTo(routeLayers[4]);
+
+// ── Toggle function ──
+window.toggleDay = function(day) {
+  const card = document.querySelector(`.day-card[data-day="${day}"]`);
+  const active = card.classList.contains('active');
+
+  if (active) {
+    card.classList.remove('active');
+    map.removeLayer(routeLayers[day]);
+    map.removeLayer(markerLayers[day]);
+  } else {
+    card.classList.add('active');
+    routeLayers[day].addTo(map);
+    markerLayers[day].addTo(map);
+  }
+};
+
+// ── Legend ──
+const legendDiv = document.createElement('div');
+legendDiv.className = 'legend-bar';
+let html = '';
+for (const [day, info] of Object.entries(DAYS)) {
+  html += `<span><span class="legend-dot" style="background:${info.color}"></span>${info.name}</span>`;
+}
+legendDiv.innerHTML = html;
+document.getElementById('map').appendChild(legendDiv);
+
+// ── Fit to all markers ──
+const allCoords = Object.values(LOC).map(l => [l.lat, l.lng]);
+map.fitBounds(allCoords, { padding: [50, 50] });
+
+// ── Keyboard 1-4 ──
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  const day = parseInt(e.key);
+  if (day >= 1 && day <= 4) toggleDay(day);
+});
+
+console.log('✅ 张家界四日游路线图已就绪 — 坐标已用 OSM Nominatim 校准');
+</script>
+</body>
+</html>
