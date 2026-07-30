@@ -407,8 +407,31 @@ for (const [key, loc] of Object.entries(LOC)) {
   }).bindPopup(popup).addTo(markerLayers[day]);
 }
 
+// ── 长沙地铁站可见标记（小圆点 + 站名）──
+const METRO_COLOR = '#E4007F';
+const metroStationLayer = L.layerGroup().addTo(map);
+const METRO_STATIONS = [
+  [M2.south[0], M2.south[1], '长沙火车南站', '🚇2/4号线'],
+  [M2.wanjiali[0], M2.wanjiali[1], '万家丽广场', '🚇2号线'],
+  [M2.furong[0], M2.furong[1], '芙蓉广场', '🚇2号线'],
+  [M2.wuyi[0], M2.wuyi[1], '五一广场', '🚇1/2号线换乘'],
+  [M2.juzizhou[0], M2.juzizhou[1], '橘子洲', '🚇2号线'],
+  [M2.yingwan[0], M2.yingwan[1], '溁湾镇', '🚇2号线 · 近岳麓山'],
+  [M4.hunanUniv[0], M4.hunanUniv[1], '湖南大学', '🚇4号线'],
+  [M4.fubuhe[0], M4.fubuhe[1], '阜埠河', '🚇4号线换乘'],
+  [M1.kaifu[0], M1.kaifu[1], '开福寺', '🚇1号线'],
+  [M2.huoche[0], M2.huoche[1], '长沙火车站', '🚇2号线'],
+];
+METRO_STATIONS.forEach(([lat, lng, name, line]) => {
+  // 小圆点
+  L.circleMarker([lat, lng], {
+    radius: 5, color: METRO_COLOR, fillColor: '#fff', fillOpacity: 1, weight: 2.5,
+  }).bindTooltip(`<b>${name}</b><br><span style="font-size:0.65rem;color:#888">${line}</span>`, {
+    direction: 'top', offset: [0, -8],
+  }).addTo(metroStationLayer);
+});
+
 // ── Routes ──
-const METRO_COLOR = '#E4007F'; // 长沙地铁2号线色
 for (const [day, segs] of Object.entries(ROUTES)) {
   for (const seg of segs) {
     const isMetro = (day <= 3 && seg.length > 2); // 长沙地铁段（多点折线=地铁，2点=步行）
@@ -459,12 +482,12 @@ window.toggleDay = function(day) {
     card.classList.remove('active');
     map.removeLayer(routeLayers[day]); map.removeLayer(markerLayers[day]);
     if (day === 3 || day === 4) map.removeLayer(trainLayer);
-    if (day <= 3) map.removeLayer(metroLabelLayer);
+    if (day <= 3) { map.removeLayer(metroLabelLayer); map.removeLayer(metroStationLayer); }
   } else {
     card.classList.add('active');
     routeLayers[day].addTo(map); markerLayers[day].addTo(map);
     if (day === 3 || day === 4) trainLayer.addTo(map);
-    if (day <= 3) metroLabelLayer.addTo(map);
+    if (day <= 3) { metroLabelLayer.addTo(map); metroStationLayer.addTo(map); }
   }
 };
 
