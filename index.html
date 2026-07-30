@@ -183,8 +183,8 @@
     <strong>💡 提示</strong><br>
     · 🔴红圈 = 需要提前预约<br>
     · 键盘 1-7 切换日期<br>
-    · 坐标：OSM Nominatim (WGS-84)<br>
-    · 瓦片：CartoDB (Fastly CDN)
+    · 坐标：高德API GCJ-02 精准校准<br>
+    · 瓦片：高德标准地图
   </div>
 </div>
 
@@ -206,44 +206,44 @@ const DAYS = {
 
 // ── 所有地点（WGS-84, 来自 Nominatim）──
 const LOC = {
-  // ═══ 长沙 ═══
-  csSouth:      { lat: 28.1501, lng: 113.0599, label: '长沙南站',           sub: '高铁站 · 8/13 抵达 · 8/15 出发去张家界', day: 1, reserve: false },
-  hotelCS:      { lat: 28.1950, lng: 113.0250, label: '🏨 汉庭·万家丽地铁站扬帆夜市', sub: '长沙住宿(8/13-14) · 近地铁2号线 · 步行到杨帆夜市', day: 1, reserve: false },
-  ifs:          { lat: 28.1957, lng: 112.9731, label: 'IFS国金中心',         sub: 'KAWS雕塑 · 网红打卡 · 高端商场', day: 1, reserve: false },
-  snackKingdom: { lat: 28.1975, lng: 112.9790, label: '零食王国',            sub: '🍬 芙蓉广场西南角 · 全球最大零食店 · 吉尼斯认证', day: 1, reserve: false },
-  wuyiSquare:   { lat: 28.1986, lng: 112.9709, label: '五一广场',            sub: '长沙市中心 · 人超多', day: 1, reserve: false },
-  taipingSt:    { lat: 28.1971, lng: 112.9663, label: '太平街',             sub: '老街小吃 · 糖油粑粑 · 茶颜悦色 · 步行街', day: 1, reserve: false },
-  poziSt:       { lat: 28.1935, lng: 112.9684, label: '坡子街',             sub: '美食街 · 火宫殿臭豆腐 · 擂茶', day: 1, reserve: false },
-  dongmaoSt:    { lat: 28.1950, lng: 112.9708, label: '东茅街',             sub: '地道湘菜 · 笨萝卜 · 一盏灯(辣!) · 特色小吃', day: 1, reserve: false },
-  yueluMtn:     { lat: 28.1910, lng: 112.9309, label: '岳麓山',             sub: '⛰️ 爱晚亭 · 岳麓书院 · 登高望远', day: 2, reserve: true, reserveNote: '⚠️ 需提前3天预约' },
-  hunanUniv:    { lat: 28.1795, lng: 112.9404, label: '湖南大学',            sub: '千年学府 · 开放式校园 · 麓山南路美食', day: 2, reserve: false },
-  orangeIsle:   { lat: 28.1897, lng: 112.9561, label: '橘子洲',             sub: '🍊 毛泽东青年雕像 · 湘江风光带', day: 2, reserve: true, reserveNote: '⚠️ 需提前3天预约' },
-  yangfanMarket:{ lat: 28.1920, lng: 113.0280, label: '杨帆夜市',            sub: '🌃 芙蓉区古曲路 · 长沙最大网红夜市 · 500+摊位 · 18:00-24:00', day: 2, reserve: false },
-  hunanMuseum:  { lat: 28.2153, lng: 112.9880, label: '湖南省博物馆',         sub: '马王堆汉墓 · 辛追夫人 · 湘楚文化', day: 3, reserve: true, reserveNote: '⚠️ 需提前7天预约！' },
-  kaifuTemple:  { lat: 28.2280, lng: 112.9726, label: '古开福寺',           sub: '长沙最古老佛教寺庙 · 千年古刹', day: 3, reserve: false },
+  // ═══ 长沙（高德GCJ-02校准）═══
+  csSouth:      { lat: 28.147093, lng: 113.065510, label: '长沙南站',           sub: '高铁站 · 8/13 抵达 · 8/15 出发去张家界', day: 1, reserve: false },
+  hotelCS:      { lat: 28.196465, lng: 113.025576, label: '🏨 汉庭·万家丽地铁站扬帆夜市', sub: '长沙住宿(8/13-14) · 近地铁2号线 · 步行到杨帆夜市', day: 1, reserve: false },
+  ifs:          { lat: 28.192691, lng: 112.977133, label: 'IFS国金中心',         sub: 'KAWS雕塑 · 网红打卡 · 高端商场', day: 1, reserve: false },
+  snackKingdom: { lat: 28.194479, lng: 112.985711, label: '零食王国',            sub: '🍬 芙蓉广场西南角 · 全球最大零食店 · 吉尼斯认证', day: 1, reserve: false },
+  wuyiSquare:   { lat: 28.196500, lng: 112.977340, label: '五一广场',            sub: '长沙市中心 · 人超多', day: 1, reserve: false },
+  taipingSt:    { lat: 28.193573, lng: 112.972071, label: '太平街',             sub: '老街小吃 · 糖油粑粑 · 茶颜悦色 · 步行街', day: 1, reserve: false },
+  poziSt:       { lat: 28.190339, lng: 112.972580, label: '坡子街',             sub: '美食街 · 火宫殿臭豆腐 · 擂茶', day: 1, reserve: false },
+  dongmaoSt:    { lat: 28.190172, lng: 112.979388, label: '东茅街',             sub: '地道湘菜 · 笨萝卜 · 一盏灯(辣!) · 特色小吃', day: 1, reserve: false },
+  yueluMtn:     { lat: 28.183601, lng: 112.936104, label: '岳麓山',             sub: '⛰️ 爱晚亭 · 岳麓书院 · 登高望远', day: 2, reserve: true, reserveNote: '⚠️ 需提前3天预约' },
+  hunanUniv:    { lat: 28.177932, lng: 112.945185, label: '湖南大学',            sub: '千年学府 · 开放式校园 · 麓山南路美食', day: 2, reserve: false },
+  orangeIsle:   { lat: 28.196505, lng: 112.963081, label: '橘子洲',             sub: '🍊 毛泽东青年雕像 · 湘江风光带', day: 2, reserve: true, reserveNote: '⚠️ 需提前3天预约' },
+  yangfanMarket:{ lat: 28.190138, lng: 113.038738, label: '杨帆夜市',            sub: '🌃 芙蓉区古曲路 · 长沙最大网红夜市 · 500+摊位 · 18:00-24:00', day: 2, reserve: false },
+  hunanMuseum:  { lat: 28.211876, lng: 112.993499, label: '湖南省博物馆',         sub: '马王堆汉墓 · 辛追夫人 · 湘楚文化', day: 3, reserve: true, reserveNote: '⚠️ 需提前7天预约！' },
+  kaifuTemple:  { lat: 28.224436, lng: 112.978340, label: '古开福寺',           sub: '长沙最古老佛教寺庙 · 千年古刹', day: 3, reserve: false },
 
-  // ═══ 张家界 ═══
-  zjjWest:      { lat: 29.1714, lng: 110.4580, label: '张家界西站',          sub: '高铁站 · 8/15 晚抵达 · 8/19 返程', day: 4, reserve: false },
-  hotelZJJ1:    { lat: 29.1165, lng: 110.4825, label: '🏨 汉庭·天门山大庸古城',   sub: '张家界住宿(8/15-16) · 近天门山索道 · 大庸古城旁', day: 4, reserve: false },
-  zjjCity:      { lat: 29.1170, lng: 110.4820, label: '天门山索道站 / 大庸古城',  sub: '天门山A线入口 · 大庸古城', day: 4, reserve: false },
-  tmsCableLow:  { lat: 29.1149, lng: 110.4784, label: '天门山索道下站',        sub: 'A线入口 · 7455米亚洲最长高山索道', day: 4, reserve: true, reserveNote: '⚠️ 需提前预约！A线最抢手' },
-  tmsTop:       { lat: 29.0827, lng: 110.4776, label: '天门山山顶',           sub: '玻璃栈道 · 鬼谷栈道 · 东西线游览', day: 4, reserve: false },
-  tmsCave:      { lat: 29.0514, lng: 110.4827, label: '天门洞',              sub: '世界海拔最高天然穿山溶洞 · 999级天梯', day: 4, reserve: false },
-  tower72:      { lat: 29.1476, lng: 110.4508, label: '七十二奇楼',           sub: '武陵山大道1号 · 夜景灯光秀 · 美食街', day: 4, reserve: false },
-  wlyEastGate:  { lat: 29.3485, lng: 110.5500, label: '武陵源东门（标志门）',    sub: 'Day 2 主入口 · 军地坪街道', day: 5, reserve: true, reserveNote: '⚠️ 森林公园需提前预约' },
-  bailong:      { lat: 29.3512, lng: 110.4612, label: '百龙天梯',            sub: '垂直高差335米 · 世界最高户外电梯', day: 5, reserve: false },
-  yuanjiajie:   { lat: 29.3530, lng: 110.4480, label: '袁家界 · 乾坤柱',       sub: '《阿凡达》悬浮山原型 · 迷魂台', day: 5, reserve: false },
-  yangjiajie:   { lat: 29.3561, lng: 110.4116, label: '杨家界 · 天然长城',      sub: '峰墙奇观 · 乌龙寨 · 一步登天', day: 5, reserve: false },
-  tianziCable:  { lat: 29.3862, lng: 110.5008, label: '天子山索道',           sub: '索道下山 · 俯瞰西海峰林', day: 5, reserve: false },
-  shiliGallery: { lat: 29.3620, lng: 110.4887, label: '十里画廊',             sub: '峡谷观光小火车 · 奇峰异石 · 采药老人', day: 5, reserve: false },
-  southGate:    { lat: 29.3090, lng: 110.4275, label: '森林公园南门（锣鼓塔）',   sub: 'Day 3 入口 · 传统正门', day: 6, reserve: false },
-  huangshiTop:  { lat: 29.3327, lng: 110.4256, label: '黄石寨山顶',           sub: '不到黄石寨 · 枉来张家界 · 峰林全景', day: 6, reserve: false },
-  goldenWhip:   { lat: 29.3339, lng: 110.4389, label: '金鞭溪',              sub: '天然大氧吧 · 溪水清澈 · 峡谷徒步', day: 6, reserve: false },
-  grandCanyon:  { lat: 29.4119, lng: 110.6937, label: '张家界大峡谷',          sub: '慈利县 · 峡谷徒步 · 瀑布溪流', day: 7, reserve: false },
-  glassBridge:  { lat: 29.3987, lng: 110.6982, label: '云天渡玻璃桥',          sub: '长430米 · 高300米 · 世界最长最高玻璃桥', day: 7, reserve: false },
-  zipline:      { lat: 29.4060, lng: 110.6880, label: '高空滑索 / 体验项目',      sub: '可选：滑索 · 滑道 · 游船', day: 7, reserve: false },
-  hotelZJJ2:    { lat: 29.3485, lng: 110.5485, label: '🏨 汉庭·森林公园标志门',   sub: '张家界住宿(8/17-18) · 近武陵源东门 · 步行到景区', day: 5, reserve: false },
-  wlyHotel:     { lat: 29.3488, lng: 110.5457, label: '武陵源城区（军地坪）',     sub: '餐饮集中 · 近东门', day: 5, reserve: false },
+  // ═══ 张家界（高德GCJ-02校准）═══
+  zjjWest:      { lat: 29.168431, lng: 110.463251, label: '张家界西站',          sub: '高铁站 · 8/15 晚抵达 · 8/19 返程', day: 4, reserve: false },
+  hotelZJJ1:    { lat: 29.128767, lng: 110.479132, label: '🏨 汉庭·天门山大庸古城',   sub: '张家界住宿(8/15-16) · 近天门山索道 · 大庸古城旁', day: 4, reserve: false },
+  zjjCity:      { lat: 29.128767, lng: 110.479132, label: '天门山索道站 / 大庸古城',  sub: '天门山A线入口 · 大庸古城', day: 4, reserve: false },
+  tmsCableLow:  { lat: 29.112267, lng: 110.483860, label: '天门山索道下站',        sub: 'A线入口 · 7455米亚洲最长高山索道', day: 4, reserve: true, reserveNote: '⚠️ 需提前预约！A线最抢手' },
+  tmsTop:       { lat: 29.046777, lng: 110.478675, label: '天门山山顶·玻璃栈道',     sub: '西线玻璃栈道 · 鬼谷栈道 · 东西线游览', day: 4, reserve: false },
+  tmsCave:      { lat: 29.048270, lng: 110.487589, label: '天门洞',              sub: '世界海拔最高天然穿山溶洞 · 999级天梯', day: 4, reserve: false },
+  tower72:      { lat: 29.144342, lng: 110.456638, label: '七十二奇楼',           sub: '武陵山大道1号 · 夜景灯光秀 · 美食街', day: 4, reserve: false },
+  wlyEastGate:  { lat: 29.351095, lng: 110.535785, label: '武陵源东门（标志门）',    sub: 'Day 2 主入口 · 军地坪街道', day: 5, reserve: true, reserveNote: '⚠️ 森林公园需提前预约' },
+  bailong:      { lat: 29.349406, lng: 110.467411, label: '百龙天梯',            sub: '垂直高差335米 · 世界最高户外电梯', day: 5, reserve: false },
+  yuanjiajie:   { lat: 29.344570, lng: 110.448512, label: '袁家界 · 乾坤柱',       sub: '《阿凡达》悬浮山原型 · 迷魂台', day: 5, reserve: false },
+  yangjiajie:   { lat: 29.361077, lng: 110.416627, label: '杨家界 · 天然长城',      sub: '峰墙奇观 · 乌龙寨 · 一步登天', day: 5, reserve: false },
+  tianziCable:  { lat: 29.374399, lng: 110.511082, label: '天子山索道下站',        sub: '索道下山 · 俯瞰西海峰林', day: 5, reserve: false },
+  shiliGallery: { lat: 29.370488, lng: 110.483406, label: '十里画廊',             sub: '峡谷观光小火车 · 奇峰异石 · 采药老人', day: 5, reserve: false },
+  southGate:    { lat: 29.308234, lng: 110.437084, label: '森林公园南门（锣鼓塔）',   sub: 'Day 3 入口 · 传统正门', day: 6, reserve: false },
+  huangshiTop:  { lat: 29.331387, lng: 110.433751, label: '黄石寨山顶',           sub: '不到黄石寨 · 枉来张家界 · 峰林全景', day: 6, reserve: false },
+  goldenWhip:   { lat: 29.342977, lng: 110.469684, label: '金鞭溪',              sub: '天然大氧吧 · 溪水清澈 · 峡谷徒步', day: 6, reserve: false },
+  grandCanyon:  { lat: 29.410804, lng: 110.700739, label: '张家界大峡谷',          sub: '慈利县 · 峡谷徒步 · 瀑布溪流', day: 7, reserve: false },
+  glassBridge:  { lat: 29.396184, lng: 110.702972, label: '云天渡玻璃桥',          sub: '长430米 · 高300米 · 世界最长最高玻璃桥', day: 7, reserve: false },
+  zipline:      { lat: 29.398000, lng: 110.698000, label: '高空滑索 / 体验项目',      sub: '可选：滑索 · 滑道 · 游船', day: 7, reserve: false },
+  hotelZJJ2:    { lat: 29.345745, lng: 110.549296, label: '🏨 汉庭·森林公园标志门',   sub: '张家界住宿(8/17-18) · 近武陵源东门 · 步行到景区', day: 5, reserve: false },
+  wlyHotel:     { lat: 29.350000, lng: 110.545000, label: '武陵源城区（军地坪）',     sub: '餐饮集中 · 近东门', day: 5, reserve: false },
 };
 
 // ── 路线 ──
@@ -306,14 +306,9 @@ const TRAIN_ROUTE = [[LOC.csSouth.lat, LOC.csSouth.lng], [LOC.zjjWest.lat, LOC.z
 
 // ── Map init ──
 const map = L.map('map', { zoomControl: true });
-// 底层：CartoDB WGS-84（定位基准，保证坐标准确）
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  subdomains: 'abcd', attribution: '&copy; OSM | ', maxZoom: 19,
-}).addTo(map);
-
-// 上层：高德半透明叠加（补齐中文路名、POI、建筑细节）
+// 高德地图瓦片（GCJ-02，全部坐标已用高德API校准）
 L.tileLayer('https://wprd0{s}.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=7', {
-  subdomains: '1234', attribution: '&copy; 高德', maxZoom: 18, opacity: 0.65,
+  subdomains: '1234', attribution: '&copy; 高德地图', maxZoom: 18,
 }).addTo(map);
 
 const routeLayers = {}, markerLayers = {};
