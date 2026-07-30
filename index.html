@@ -423,11 +423,19 @@ const METRO_STATIONS = [
   [M2.huoche[0], M2.huoche[1], '长沙火车站', '🚇2号线'],
 ];
 METRO_STATIONS.forEach(([lat, lng, name, line]) => {
-  // 小圆点
+  // 粉色圆点 + 白色中心
   L.circleMarker([lat, lng], {
-    radius: 5, color: METRO_COLOR, fillColor: '#fff', fillOpacity: 1, weight: 2.5,
-  }).bindTooltip(`<b>${name}</b><br><span style="font-size:0.65rem;color:#888">${line}</span>`, {
-    direction: 'top', offset: [0, -8],
+    radius: 7, color: METRO_COLOR, fillColor: '#fff', fillOpacity: 1, weight: 3,
+  }).bindTooltip(`<b>🚇 ${name}</b><br><span style="font-size:0.65rem;color:#888">${line}</span>`, {
+    direction: 'top', offset: [0, -10], permanent: false,
+  }).addTo(metroStationLayer);
+  // 站名标签（缩小字号）
+  L.marker([lat, lng], {
+    icon: L.divIcon({
+      className: '', html: `<div style="font-size:0.5rem;color:#E4007F;font-weight:600;white-space:nowrap;text-shadow:0 0 3px #fff;transform:translate(-50%,-18px)">${name}</div>`,
+      iconSize: [0,0], iconAnchor: [0,0],
+    }),
+    interactive: false,
   }).addTo(metroStationLayer);
 });
 
@@ -476,19 +484,27 @@ L.marker(mlabel2, {
 // ── Toggle ──
 const cardEls = {};
 for (let d=1; d<=7; d++) cardEls[d] = document.querySelector(`.day-card[data-day="${d}"]`);
+function updateMetroLayers() {
+  // 只要有一个长沙日(1-3)还在显示，就显示地铁图层
+  const anyCS = [1,2,3].some(d => cardEls[d].classList.contains('active'));
+  if (anyCS) {
+    metroLabelLayer.addTo(map); metroStationLayer.addTo(map);
+  } else {
+    map.removeLayer(metroLabelLayer); map.removeLayer(metroStationLayer);
+  }
+}
 window.toggleDay = function(day) {
   const card = cardEls[day], active = card.classList.contains('active');
   if (active) {
     card.classList.remove('active');
     map.removeLayer(routeLayers[day]); map.removeLayer(markerLayers[day]);
-    if (day === 3 || day === 4) map.removeLayer(trainLayer);
-    if (day <= 3) { map.removeLayer(metroLabelLayer); map.removeLayer(metroStationLayer); }
+    if ((day === 3 || day === 4) && !cardEls[3].classList.contains('active') && !cardEls[4].classList.contains('active')) map.removeLayer(trainLayer);
   } else {
     card.classList.add('active');
     routeLayers[day].addTo(map); markerLayers[day].addTo(map);
     if (day === 3 || day === 4) trainLayer.addTo(map);
-    if (day <= 3) { metroLabelLayer.addTo(map); metroStationLayer.addTo(map); }
   }
+  updateMetroLayers();
 };
 
 // ── Legend ──
