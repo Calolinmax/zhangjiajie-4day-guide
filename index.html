@@ -153,7 +153,7 @@
   <div class="day-card active" data-day="5" style="color: var(--zj-2);" onclick="toggleDay(5)">
     <span class="day-badge" style="background:var(--zj-2)">📍 8/17 · Day 2 🏨 汉庭·标志门</span>
     <div class="day-title">武陵源（上）· 阿凡达世界</div>
-    <div class="day-route">🏨汉庭标志门店 → 东门(步行) → 百龙天梯 → 袁家界 → 杨家界 → 天子山索道 → 十里画廊</div>
+    <div class="day-route">酒店2 → 酒店3(换酒店) → 东门 → 百龙天梯 → 袁家界 → 杨家界 → 天子山索道 → 十里画廊 → 回酒店3</div>
     <div class="day-stops">
       <span class="stop-tag reserve">🔴 森林公园(需预约)</span>
       <span class="stop-tag">🏨 标志门</span><span class="stop-tag">① 东门</span>
@@ -172,8 +172,8 @@
 
   <div class="day-card active" data-day="7" style="color: var(--zj-4);" onclick="toggleDay(7)">
     <span class="day-badge" style="background:var(--zj-4)">📍 8/19 · Day 4</span>
-    <div class="day-title">大峡谷 → 返程</div>
-    <div class="day-route">大峡谷 → 云天渡玻璃桥 → 滑索 → 回张家界西站 → 返程</div>
+    <div class="day-title">大峡谷 → 返程 → 回家🏠</div>
+    <div class="day-route">酒店3 → 大峡谷 → 玻璃桥 → 滑索 → 回酒店3(取行李) → 西站 → 信阳东站 → 息县</div>
     <div class="day-stops">
       <span class="stop-tag">① 大峡谷</span><span class="stop-tag">② 玻璃桥</span><span class="stop-tag">③ 滑索</span>
     </div>
@@ -244,11 +244,15 @@ const LOC = {
   zipline:      { lat: 29.398000, lng: 110.698000, label: '高空滑索 / 体验项目',      sub: '可选：滑索 · 滑道 · 游船', day: 7, reserve: false },
   hotelZJJ2:    { lat: 29.345745, lng: 110.549296, label: '🏨 汉庭·森林公园标志门',   sub: '张家界住宿(8/17-18) · 近武陵源东门 · 步行到景区', day: 5, reserve: false },
   wlyHotel:     { lat: 29.350000, lng: 110.545000, label: '武陵源城区（军地坪）',     sub: '餐饮集中 · 近东门', day: 5, reserve: false },
+
+  // ═══ 返程 ═══
+  xinyang:      { lat: 32.143878, lng: 114.159280, label: '信阳东站',           sub: '中转 · 高铁回程', day: 7, reserve: false },
+  xixian:       { lat: 32.343120, lng: 114.740392, label: '息县',              sub: '🏠 最终目的地 · 回家', day: 7, reserve: false },
 };
 
 // ── 路线 ──
 const ROUTES = {
-  1: [ // 8/13 长沙城市
+  1: [ // 8/13 南站→酒店1→游玩→回酒店1
     [[LOC.csSouth.lat, LOC.csSouth.lng], [LOC.hotelCS.lat, LOC.hotelCS.lng]],
     [[LOC.hotelCS.lat, LOC.hotelCS.lng], [LOC.snackKingdom.lat, LOC.snackKingdom.lng]],
     [[LOC.snackKingdom.lat, LOC.snackKingdom.lng], [LOC.ifs.lat, LOC.ifs.lng]],
@@ -256,48 +260,53 @@ const ROUTES = {
     [[LOC.wuyiSquare.lat, LOC.wuyiSquare.lng], [LOC.taipingSt.lat, LOC.taipingSt.lng]],
     [[LOC.taipingSt.lat, LOC.taipingSt.lng], [LOC.poziSt.lat, LOC.poziSt.lng]],
     [[LOC.poziSt.lat, LOC.poziSt.lng], [LOC.dongmaoSt.lat, LOC.dongmaoSt.lng]],
+    [[LOC.dongmaoSt.lat, LOC.dongmaoSt.lng], [LOC.hotelCS.lat, LOC.hotelCS.lng]],
   ],
-  2: [ // 8/14 岳麓山+橘子洲+杨帆夜市
+  2: [ // 8/14 酒店1→岳麓山→橘子洲→杨帆夜市→回酒店1
+    [[LOC.hotelCS.lat, LOC.hotelCS.lng], [LOC.yueluMtn.lat, LOC.yueluMtn.lng]],
     [[LOC.yueluMtn.lat, LOC.yueluMtn.lng], [LOC.hunanUniv.lat, LOC.hunanUniv.lng]],
     [[LOC.hunanUniv.lat, LOC.hunanUniv.lng], [LOC.orangeIsle.lat, LOC.orangeIsle.lng]],
     [[LOC.orangeIsle.lat, LOC.orangeIsle.lng], [LOC.yangfanMarket.lat, LOC.yangfanMarket.lng]],
+    [[LOC.yangfanMarket.lat, LOC.yangfanMarket.lng], [LOC.hotelCS.lat, LOC.hotelCS.lng]],
   ],
-  3: [ // 8/15 省博+开福寺 → 高铁
+  3: [ // 8/15 酒店1→省博→开福寺→长沙南站→(高铁)→张家界西站→酒店2
+    [[LOC.hotelCS.lat, LOC.hotelCS.lng], [LOC.hunanMuseum.lat, LOC.hunanMuseum.lng]],
     [[LOC.hunanMuseum.lat, LOC.hunanMuseum.lng], [LOC.kaifuTemple.lat, LOC.kaifuTemple.lng]],
     [[LOC.kaifuTemple.lat, LOC.kaifuTemple.lng], [LOC.csSouth.lat, LOC.csSouth.lng]],
-  ],
-  4: [ // 8/16 天门山
-    // 西站 → 汉庭大庸古城酒店
     [[LOC.zjjWest.lat, LOC.zjjWest.lng], [LOC.hotelZJJ1.lat, LOC.hotelZJJ1.lng]],
-    // 酒店 → 索道站(步行)
+  ],
+  4: [ // 8/16 酒店2→天门山→回酒店2→七十二奇楼→回酒店2
     [[LOC.hotelZJJ1.lat, LOC.hotelZJJ1.lng], [LOC.tmsCableLow.lat, LOC.tmsCableLow.lng]],
     [[LOC.tmsCableLow.lat, LOC.tmsCableLow.lng], [LOC.tmsTop.lat, LOC.tmsTop.lng]],
     [[LOC.tmsTop.lat, LOC.tmsTop.lng], [LOC.tmsCave.lat, LOC.tmsCave.lng]],
     [[LOC.tmsCave.lat, LOC.tmsCave.lng], [LOC.hotelZJJ1.lat, LOC.hotelZJJ1.lng]],
     [[LOC.hotelZJJ1.lat, LOC.hotelZJJ1.lng], [LOC.tower72.lat, LOC.tower72.lng]],
+    [[LOC.tower72.lat, LOC.tower72.lng], [LOC.hotelZJJ1.lat, LOC.hotelZJJ1.lng]],
   ],
-  5: [ // 8/17 武陵源上
-    // 汉庭标志门酒店 → 东门(步行2分钟)
+  5: [ // 8/17 酒店2→酒店3(换酒店)→东门→武陵源上→回酒店3
+    [[LOC.hotelZJJ1.lat, LOC.hotelZJJ1.lng], [LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng]],
     [[LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng], [LOC.wlyEastGate.lat, LOC.wlyEastGate.lng]],
+    [[LOC.wlyEastGate.lat, LOC.wlyEastGate.lng], [LOC.bailong.lat, LOC.bailong.lng]],
     [[LOC.bailong.lat, LOC.bailong.lng], [LOC.yuanjiajie.lat, LOC.yuanjiajie.lng]],
     [[LOC.yuanjiajie.lat, LOC.yuanjiajie.lng], [LOC.yangjiajie.lat, LOC.yangjiajie.lng]],
     [[LOC.yangjiajie.lat, LOC.yangjiajie.lng], [LOC.tianziCable.lat, LOC.tianziCable.lng]],
     [[LOC.tianziCable.lat, LOC.tianziCable.lng], [LOC.shiliGallery.lat, LOC.shiliGallery.lng]],
     [[LOC.shiliGallery.lat, LOC.shiliGallery.lng], [LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng]],
   ],
-  6: [ // 8/18 武陵源下
-    // 从标志门酒店出发 → 南门
+  6: [ // 8/18 酒店3→南门→黄石寨→金鞭溪→回酒店3
     [[LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng], [LOC.southGate.lat, LOC.southGate.lng]],
     [[LOC.southGate.lat, LOC.southGate.lng], [LOC.huangshiTop.lat, LOC.huangshiTop.lng]],
     [[LOC.huangshiTop.lat, LOC.huangshiTop.lng], [LOC.goldenWhip.lat, LOC.goldenWhip.lng]],
     [[LOC.goldenWhip.lat, LOC.goldenWhip.lng], [LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng]],
   ],
-  7: [ // 8/19 大峡谷→返程
-    // 标志门酒店退房 → 大峡谷
+  7: [ // 8/19 酒店3→大峡谷→玻璃桥→回酒店3→西站→信阳→息县
     [[LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng], [LOC.grandCanyon.lat, LOC.grandCanyon.lng]],
     [[LOC.grandCanyon.lat, LOC.grandCanyon.lng], [LOC.glassBridge.lat, LOC.glassBridge.lng]],
     [[LOC.glassBridge.lat, LOC.glassBridge.lng], [LOC.zipline.lat, LOC.zipline.lng]],
-    [[LOC.zipline.lat, LOC.zipline.lng], [LOC.zjjWest.lat, LOC.zjjWest.lng]],
+    [[LOC.zipline.lat, LOC.zipline.lng], [LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng]],
+    [[LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng], [LOC.zjjWest.lat, LOC.zjjWest.lng]],
+    [[LOC.zjjWest.lat, LOC.zjjWest.lng], [LOC.xinyang.lat, LOC.xinyang.lng]],
+    [[LOC.xinyang.lat, LOC.xinyang.lng], [LOC.xixian.lat, LOC.xixian.lng]],
   ],
 };
 
