@@ -104,22 +104,23 @@
 
   <div class="day-card active" data-day="1" style="color: var(--cs-a);" onclick="toggleDay(1)">
     <span class="day-badge" style="background:var(--cs-a)">📍 8/13 下午 · 城市初探</span>
-    <div class="day-title">IFS国金中心 + 老街美食</div>
-    <div class="day-route">长沙南站 → IFS国金中心 → 五一广场 → 太平街 → 坡子街 → 东茅街(吃)</div>
+    <div class="day-title">IFS国金中心 + 零食王国 + 老街美食</div>
+    <div class="day-route">长沙南站 → IFS国金中心 → 零食王国(芙蓉广场) → 五一广场 → 太平街 → 坡子街 → 东茅街(吃)</div>
     <div class="day-stops">
-      <span class="stop-tag">① 南站</span><span class="stop-tag">② IFS</span><span class="stop-tag">③ 五一广场</span>
-      <span class="stop-tag">④ 太平街</span><span class="stop-tag">⑤ 坡子街</span><span class="stop-tag">⑥ 东茅街</span>
+      <span class="stop-tag">① 南站</span><span class="stop-tag">② IFS</span><span class="stop-tag">③ 零食王国</span>
+      <span class="stop-tag">④ 五一广场</span><span class="stop-tag">⑤ 太平街</span><span class="stop-tag">⑥ 坡子街</span><span class="stop-tag">⑦ 东茅街</span>
     </div>
   </div>
 
   <div class="day-card active" data-day="2" style="color: var(--cs-b);" onclick="toggleDay(2)">
     <span class="day-badge" style="background:var(--cs-b)">📍 8/14 全天 · 山水洲城</span>
-    <div class="day-title">岳麓山 + 湖南大学 + 橘子洲</div>
-    <div class="day-route">岳麓山 ⛰️ → 湖南大学 → 橘子洲 🍊</div>
+    <div class="day-title">岳麓山 + 湖南大学 + 橘子洲 + 杨帆夜市</div>
+    <div class="day-route">岳麓山 ⛰️ → 湖南大学 → 橘子洲 🍊 → 晚上·杨帆夜市</div>
     <div class="day-stops">
       <span class="stop-tag reserve">🔴 岳麓山(提前3天)</span>
       <span class="stop-tag">① 岳麓山</span><span class="stop-tag">② 湖南大学</span>
       <span class="stop-tag reserve">🔴 橘子洲(提前3天)</span><span class="stop-tag">③ 橘子洲</span>
+      <span class="stop-tag">④ 杨帆夜市</span>
     </div>
   </div>
 
@@ -217,6 +218,7 @@ const LOC = {
   // ═══ 长沙 ═══
   csSouth:      { lat: 28.1501, lng: 113.0599, label: '长沙南站',           sub: '高铁站 · 8/13 抵达 · 8/15 出发去张家界', day: 1, reserve: false },
   ifs:          { lat: 28.1957, lng: 112.9731, label: 'IFS国金中心',         sub: 'KAWS雕塑 · 网红打卡 · 高端商场', day: 1, reserve: false },
+  snackKingdom: { lat: 28.1975, lng: 112.9790, label: '零食王国',            sub: '🍬 芙蓉广场西南角 · 全球最大零食店 · 吉尼斯认证', day: 1, reserve: false },
   wuyiSquare:   { lat: 28.1986, lng: 112.9709, label: '五一广场',            sub: '长沙市中心 · 人超多', day: 1, reserve: false },
   taipingSt:    { lat: 28.1971, lng: 112.9663, label: '太平街',             sub: '老街小吃 · 糖油粑粑 · 茶颜悦色 · 步行街', day: 1, reserve: false },
   poziSt:       { lat: 28.1935, lng: 112.9684, label: '坡子街',             sub: '美食街 · 火宫殿臭豆腐 · 擂茶', day: 1, reserve: false },
@@ -224,6 +226,7 @@ const LOC = {
   yueluMtn:     { lat: 28.1910, lng: 112.9309, label: '岳麓山',             sub: '⛰️ 爱晚亭 · 岳麓书院 · 登高望远', day: 2, reserve: true, reserveNote: '⚠️ 需提前3天预约' },
   hunanUniv:    { lat: 28.1795, lng: 112.9404, label: '湖南大学',            sub: '千年学府 · 开放式校园 · 麓山南路美食', day: 2, reserve: false },
   orangeIsle:   { lat: 28.1897, lng: 112.9561, label: '橘子洲',             sub: '🍊 毛泽东青年雕像 · 湘江风光带', day: 2, reserve: true, reserveNote: '⚠️ 需提前3天预约' },
+  yangfanMarket:{ lat: 28.1920, lng: 113.0280, label: '杨帆夜市',            sub: '🌃 芙蓉区古曲路 · 长沙最大网红夜市 · 500+摊位 · 18:00-24:00', day: 2, reserve: false },
   hunanMuseum:  { lat: 28.2153, lng: 112.9880, label: '湖南省博物馆',         sub: '马王堆汉墓 · 辛追夫人 · 湘楚文化', day: 3, reserve: true, reserveNote: '⚠️ 需提前7天预约！' },
   kaifuTemple:  { lat: 28.2280, lng: 112.9726, label: '古开福寺',           sub: '长沙最古老佛教寺庙 · 千年古刹', day: 3, reserve: false },
 
@@ -259,14 +262,16 @@ for (const key of Object.keys(LOC)) {
 const ROUTES = {
   1: [ // 8/13 长沙城市
     [[LOC.csSouth.lat, LOC.csSouth.lng], [LOC.ifs.lat, LOC.ifs.lng]],
-    [[LOC.ifs.lat, LOC.ifs.lng], [LOC.wuyiSquare.lat, LOC.wuyiSquare.lng]],
+    [[LOC.ifs.lat, LOC.ifs.lng], [LOC.snackKingdom.lat, LOC.snackKingdom.lng]],
+    [[LOC.snackKingdom.lat, LOC.snackKingdom.lng], [LOC.wuyiSquare.lat, LOC.wuyiSquare.lng]],
     [[LOC.wuyiSquare.lat, LOC.wuyiSquare.lng], [LOC.taipingSt.lat, LOC.taipingSt.lng]],
     [[LOC.taipingSt.lat, LOC.taipingSt.lng], [LOC.poziSt.lat, LOC.poziSt.lng]],
     [[LOC.poziSt.lat, LOC.poziSt.lng], [LOC.dongmaoSt.lat, LOC.dongmaoSt.lng]],
   ],
-  2: [ // 8/14 岳麓山+橘子洲
+  2: [ // 8/14 岳麓山+橘子洲+杨帆夜市
     [[LOC.yueluMtn.lat, LOC.yueluMtn.lng], [LOC.hunanUniv.lat, LOC.hunanUniv.lng]],
     [[LOC.hunanUniv.lat, LOC.hunanUniv.lng], [LOC.orangeIsle.lat, LOC.orangeIsle.lng]],
+    [[LOC.orangeIsle.lat, LOC.orangeIsle.lng], [LOC.yangfanMarket.lat, LOC.yangfanMarket.lng]],
   ],
   3: [ // 8/15 省博+开福寺 → 高铁
     [[LOC.hunanMuseum.lat, LOC.hunanMuseum.lng], [LOC.kaifuTemple.lat, LOC.kaifuTemple.lng]],
