@@ -306,9 +306,14 @@ const TRAIN_ROUTE = [[LOC.csSouth.lat, LOC.csSouth.lng], [LOC.zjjWest.lat, LOC.z
 
 // ── Map init ──
 const map = L.map('map', { zoomControl: true });
-// 高德地图瓦片（style=7标准中文标注，scale=2高清）
+// 底层：CartoDB WGS-84（定位基准，保证坐标准确）
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  subdomains: 'abcd', attribution: '&copy; OSM | ', maxZoom: 19,
+}).addTo(map);
+
+// 上层：高德半透明叠加（补齐中文路名、POI、建筑细节）
 L.tileLayer('https://wprd0{s}.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=7', {
-  subdomains: '1234', attribution: '&copy; 高德地图', maxZoom: 18,
+  subdomains: '1234', attribution: '&copy; 高德', maxZoom: 18, opacity: 0.65,
 }).addTo(map);
 
 const routeLayers = {}, markerLayers = {};
