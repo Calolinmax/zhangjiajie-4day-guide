@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>长沙+张家界 · 六日游路线图 | 8/13-8/19</title>
+<title>湖南一周游 · 七日路线图 | 8/13-8/19 · 7天6晚</title>
 <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/leaflet/1.9.4/leaflet.css" />
 <style>
   :root {
@@ -92,7 +92,7 @@
 <body>
 
 <div class="header">
-  <h1>🏔️ 长沙 + 张家界 · 七日游路线图 <span style="font-size:0.7rem;font-weight:400;color:var(--muted)">8/13 — 8/19</span></h1>
+  <h1>🏔️ 湖南一周游 · 七日路线图 <span style="font-size:0.7rem;font-weight:400;color:var(--muted)">8/13 — 8/19 · 7天6晚</span></h1>
   <span class="subtitle">点击日期卡片切换图层 | 键盘 1-7 | 🔴=需预约</span>
 </div>
 
@@ -105,9 +105,10 @@
   <div class="day-card active" data-day="1" style="color: var(--cs-a);" onclick="toggleDay(1)">
     <span class="day-badge" style="background:var(--cs-a)">📍 8/13 下午 · 城市初探</span>
     <div class="day-title">IFS国金中心 + 零食王国 + 老街美食</div>
-    <div class="day-route">长沙南站 → IFS国金中心 → 零食王国(芙蓉广场) → 五一广场 → 太平街 → 坡子街 → 东茅街(吃)</div>
+    <div class="day-route">长沙南站 🚇2→ 万家丽广场 → 🏨汉庭(放行李) 🚇2→ 芙蓉广场 → 零食王国 → IFS → 五一广场 → 太平街 → 坡子街 → 东茅街</div>
     <div class="day-stops">
-      <span class="stop-tag">① 南站</span><span class="stop-tag">② IFS</span><span class="stop-tag">③ 零食王国</span>
+      <span class="stop-tag">① 南站</span><span class="stop-tag">🏨 汉庭·万家丽</span>
+      <span class="stop-tag">② 零食王国</span><span class="stop-tag">③ IFS</span>
       <span class="stop-tag">④ 五一广场</span><span class="stop-tag">⑤ 太平街</span><span class="stop-tag">⑥ 坡子街</span><span class="stop-tag">⑦ 东茅街</span>
     </div>
   </div>
@@ -139,23 +140,24 @@
   <div class="city-header zj-header">🏔️ 张家界 · 8/16 — 8/19</div>
 
   <div class="day-card active" data-day="4" style="color: var(--zj-1);" onclick="toggleDay(4)">
-    <span class="day-badge" style="background:var(--zj-1)">📍 8/16 · Day 1</span>
+    <span class="day-badge" style="background:var(--zj-1)">📍 8/16 · Day 1 🏨 汉庭·大庸古城</span>
     <div class="day-title">天门山 + 七十二奇楼</div>
-    <div class="day-route">西站 → 酒店 → 索道 → 山顶 → 天门洞 → 99道弯 → 七十二奇楼夜景</div>
+    <div class="day-route">西站 → 🏨汉庭天门山大庸古城 → 索道 → 山顶 → 天门洞 → 99道弯 → 七十二奇楼夜景</div>
     <div class="day-stops">
       <span class="stop-tag reserve">🔴 天门山(需预约)</span>
-      <span class="stop-tag">① 西站</span><span class="stop-tag">② 酒店</span>
-      <span class="stop-tag">③ 山顶</span><span class="stop-tag">④ 天门洞</span><span class="stop-tag">⑤ 奇楼</span>
+      <span class="stop-tag">① 西站</span><span class="stop-tag">🏨 大庸古城</span>
+      <span class="stop-tag">② 山顶</span><span class="stop-tag">③ 天门洞</span><span class="stop-tag">④ 奇楼</span>
     </div>
   </div>
 
   <div class="day-card active" data-day="5" style="color: var(--zj-2);" onclick="toggleDay(5)">
-    <span class="day-badge" style="background:var(--zj-2)">📍 8/17 · Day 2</span>
+    <span class="day-badge" style="background:var(--zj-2)">📍 8/17 · Day 2 🏨 汉庭·标志门</span>
     <div class="day-title">武陵源（上）· 阿凡达世界</div>
-    <div class="day-route">东门 → 百龙天梯 → 袁家界 → 杨家界 → 天子山索道 → 十里画廊</div>
+    <div class="day-route">🏨汉庭标志门店 → 东门(步行) → 百龙天梯 → 袁家界 → 杨家界 → 天子山索道 → 十里画廊</div>
     <div class="day-stops">
       <span class="stop-tag reserve">🔴 森林公园(需预约)</span>
-      <span class="stop-tag">①-⑥</span>
+      <span class="stop-tag">🏨 标志门</span><span class="stop-tag">① 东门</span>
+      <span class="stop-tag">② 百龙天梯</span><span class="stop-tag">③-⑥</span>
     </div>
   </div>
 
@@ -217,6 +219,7 @@ const DAYS = {
 const LOC = {
   // ═══ 长沙 ═══
   csSouth:      { lat: 28.1501, lng: 113.0599, label: '长沙南站',           sub: '高铁站 · 8/13 抵达 · 8/15 出发去张家界', day: 1, reserve: false },
+  hotelCS:      { lat: 28.1950, lng: 113.0250, label: '🏨 汉庭·万家丽地铁站扬帆夜市', sub: '长沙住宿(8/13-14) · 近地铁2号线 · 步行到杨帆夜市', day: 1, reserve: false },
   ifs:          { lat: 28.1957, lng: 112.9731, label: 'IFS国金中心',         sub: 'KAWS雕塑 · 网红打卡 · 高端商场', day: 1, reserve: false },
   snackKingdom: { lat: 28.1975, lng: 112.9790, label: '零食王国',            sub: '🍬 芙蓉广场西南角 · 全球最大零食店 · 吉尼斯认证', day: 1, reserve: false },
   wuyiSquare:   { lat: 28.1986, lng: 112.9709, label: '五一广场',            sub: '长沙市中心 · 人超多', day: 1, reserve: false },
@@ -232,7 +235,8 @@ const LOC = {
 
   // ═══ 张家界 ═══
   zjjWest:      { lat: 29.1714, lng: 110.4580, label: '张家界西站',          sub: '高铁站 · 8/15 晚抵达 · 8/19 返程', day: 4, reserve: false },
-  zjjCity:      { lat: 29.1170, lng: 110.4820, label: '天门山附近酒店 / 市区',  sub: '永定区 · 安顿行李 · 住宿', day: 4, reserve: false },
+  hotelZJJ1:    { lat: 29.1165, lng: 110.4825, label: '🏨 汉庭·天门山大庸古城',   sub: '张家界住宿(8/15-16) · 近天门山索道 · 大庸古城旁', day: 4, reserve: false },
+  zjjCity:      { lat: 29.1170, lng: 110.4820, label: '天门山索道站 / 大庸古城',  sub: '天门山A线入口 · 大庸古城', day: 4, reserve: false },
   tmsCableLow:  { lat: 29.1149, lng: 110.4784, label: '天门山索道下站',        sub: 'A线入口 · 7455米亚洲最长高山索道', day: 4, reserve: true, reserveNote: '⚠️ 需提前预约！A线最抢手' },
   tmsTop:       { lat: 29.0827, lng: 110.4776, label: '天门山山顶',           sub: '玻璃栈道 · 鬼谷栈道 · 东西线游览', day: 4, reserve: false },
   tmsCave:      { lat: 29.0514, lng: 110.4827, label: '天门洞',              sub: '世界海拔最高天然穿山溶洞 · 999级天梯', day: 4, reserve: false },
@@ -249,7 +253,8 @@ const LOC = {
   grandCanyon:  { lat: 29.4119, lng: 110.6937, label: '张家界大峡谷',          sub: '慈利县 · 峡谷徒步 · 瀑布溪流', day: 7, reserve: false },
   glassBridge:  { lat: 29.3987, lng: 110.6982, label: '云天渡玻璃桥',          sub: '长430米 · 高300米 · 世界最长最高玻璃桥', day: 7, reserve: false },
   zipline:      { lat: 29.4060, lng: 110.6880, label: '高空滑索 / 体验项目',      sub: '可选：滑索 · 滑道 · 游船', day: 7, reserve: false },
-  wlyHotel:     { lat: 29.3488, lng: 110.5457, label: '武陵源城区（军地坪）',     sub: '住宿 · 餐饮集中 · 近东门', day: 5, reserve: false },
+  hotelZJJ2:    { lat: 29.3485, lng: 110.5485, label: '🏨 汉庭·森林公园标志门',   sub: '张家界住宿(8/17-18) · 近武陵源东门 · 步行到景区', day: 5, reserve: false },
+  wlyHotel:     { lat: 29.3488, lng: 110.5457, label: '武陵源城区（军地坪）',     sub: '餐饮集中 · 近东门', day: 5, reserve: false },
 };
 
 // ── 转换所有坐标为 GCJ-02 ──
@@ -261,9 +266,12 @@ for (const key of Object.keys(LOC)) {
 // ── 路线 ──
 const ROUTES = {
   1: [ // 8/13 长沙城市
-    [[LOC.csSouth.lat, LOC.csSouth.lng], [LOC.ifs.lat, LOC.ifs.lng]],
-    [[LOC.ifs.lat, LOC.ifs.lng], [LOC.snackKingdom.lat, LOC.snackKingdom.lng]],
-    [[LOC.snackKingdom.lat, LOC.snackKingdom.lng], [LOC.wuyiSquare.lat, LOC.wuyiSquare.lng]],
+    // 南站 → 地铁2号线 → 酒店
+    [[LOC.csSouth.lat, LOC.csSouth.lng], [LOC.hotelCS.lat, LOC.hotelCS.lng]],
+    // 酒店 → 地铁 → 零食王国
+    [[LOC.hotelCS.lat, LOC.hotelCS.lng], [LOC.snackKingdom.lat, LOC.snackKingdom.lng]],
+    [[LOC.snackKingdom.lat, LOC.snackKingdom.lng], [LOC.ifs.lat, LOC.ifs.lng]],
+    [[LOC.ifs.lat, LOC.ifs.lng], [LOC.wuyiSquare.lat, LOC.wuyiSquare.lng]],
     [[LOC.wuyiSquare.lat, LOC.wuyiSquare.lng], [LOC.taipingSt.lat, LOC.taipingSt.lng]],
     [[LOC.taipingSt.lat, LOC.taipingSt.lng], [LOC.poziSt.lat, LOC.poziSt.lng]],
     [[LOC.poziSt.lat, LOC.poziSt.lng], [LOC.dongmaoSt.lat, LOC.dongmaoSt.lng]],
@@ -278,29 +286,34 @@ const ROUTES = {
     [[LOC.kaifuTemple.lat, LOC.kaifuTemple.lng], [LOC.csSouth.lat, LOC.csSouth.lng]],
   ],
   4: [ // 8/16 天门山
-    [[LOC.zjjWest.lat, LOC.zjjWest.lng], [LOC.zjjCity.lat, LOC.zjjCity.lng]],
-    [[LOC.zjjCity.lat, LOC.zjjCity.lng], [LOC.tmsCableLow.lat, LOC.tmsCableLow.lng]],
+    // 西站 → 汉庭大庸古城酒店
+    [[LOC.zjjWest.lat, LOC.zjjWest.lng], [LOC.hotelZJJ1.lat, LOC.hotelZJJ1.lng]],
+    // 酒店 → 索道站(步行)
+    [[LOC.hotelZJJ1.lat, LOC.hotelZJJ1.lng], [LOC.tmsCableLow.lat, LOC.tmsCableLow.lng]],
     [[LOC.tmsCableLow.lat, LOC.tmsCableLow.lng], [LOC.tmsTop.lat, LOC.tmsTop.lng]],
     [[LOC.tmsTop.lat, LOC.tmsTop.lng], [LOC.tmsCave.lat, LOC.tmsCave.lng]],
-    [[LOC.tmsCave.lat, LOC.tmsCave.lng], [LOC.zjjCity.lat, LOC.zjjCity.lng]],
-    [[LOC.zjjCity.lat, LOC.zjjCity.lng], [LOC.tower72.lat, LOC.tower72.lng]],
+    [[LOC.tmsCave.lat, LOC.tmsCave.lng], [LOC.hotelZJJ1.lat, LOC.hotelZJJ1.lng]],
+    [[LOC.hotelZJJ1.lat, LOC.hotelZJJ1.lng], [LOC.tower72.lat, LOC.tower72.lng]],
   ],
   5: [ // 8/17 武陵源上
-    [[LOC.wlyEastGate.lat, LOC.wlyEastGate.lng], [LOC.bailong.lat, LOC.bailong.lng]],
+    // 汉庭标志门酒店 → 东门(步行2分钟)
+    [[LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng], [LOC.wlyEastGate.lat, LOC.wlyEastGate.lng]],
     [[LOC.bailong.lat, LOC.bailong.lng], [LOC.yuanjiajie.lat, LOC.yuanjiajie.lng]],
     [[LOC.yuanjiajie.lat, LOC.yuanjiajie.lng], [LOC.yangjiajie.lat, LOC.yangjiajie.lng]],
     [[LOC.yangjiajie.lat, LOC.yangjiajie.lng], [LOC.tianziCable.lat, LOC.tianziCable.lng]],
     [[LOC.tianziCable.lat, LOC.tianziCable.lng], [LOC.shiliGallery.lat, LOC.shiliGallery.lng]],
-    [[LOC.shiliGallery.lat, LOC.shiliGallery.lng], [LOC.wlyHotel.lat, LOC.wlyHotel.lng]],
+    [[LOC.shiliGallery.lat, LOC.shiliGallery.lng], [LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng]],
   ],
   6: [ // 8/18 武陵源下
-    [[LOC.wlyHotel.lat, LOC.wlyHotel.lng], [LOC.southGate.lat, LOC.southGate.lng]],
+    // 从标志门酒店出发 → 南门
+    [[LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng], [LOC.southGate.lat, LOC.southGate.lng]],
     [[LOC.southGate.lat, LOC.southGate.lng], [LOC.huangshiTop.lat, LOC.huangshiTop.lng]],
     [[LOC.huangshiTop.lat, LOC.huangshiTop.lng], [LOC.goldenWhip.lat, LOC.goldenWhip.lng]],
-    [[LOC.goldenWhip.lat, LOC.goldenWhip.lng], [LOC.wlyHotel.lat, LOC.wlyHotel.lng]],
+    [[LOC.goldenWhip.lat, LOC.goldenWhip.lng], [LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng]],
   ],
   7: [ // 8/19 大峡谷→返程
-    [[LOC.wlyHotel.lat, LOC.wlyHotel.lng], [LOC.grandCanyon.lat, LOC.grandCanyon.lng]],
+    // 标志门酒店退房 → 大峡谷
+    [[LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng], [LOC.grandCanyon.lat, LOC.grandCanyon.lng]],
     [[LOC.grandCanyon.lat, LOC.grandCanyon.lng], [LOC.glassBridge.lat, LOC.glassBridge.lng]],
     [[LOC.glassBridge.lat, LOC.glassBridge.lng], [LOC.zipline.lat, LOC.zipline.lng]],
     [[LOC.zipline.lat, LOC.zipline.lng], [LOC.zjjWest.lat, LOC.zjjWest.lng]],
@@ -364,6 +377,27 @@ L.marker([midLat, midLng], {
   interactive: false,
 }).addTo(trainLayer);
 
+// ── 长沙地铁2号线标注 ──
+const metroLayer = L.layerGroup().addTo(map);
+// 南站→万家丽广场
+const metroMid1 = [(LOC.csSouth.lat + LOC.hotelCS.lat)/2, (LOC.csSouth.lng + LOC.hotelCS.lng)/2];
+L.polyline([[LOC.csSouth.lat, LOC.csSouth.lng],[LOC.hotelCS.lat, LOC.hotelCS.lng]], {
+  color: '#E4007F', weight: 2.5, opacity: 0.5, dashArray: '6 5', lineJoin: 'round'
+}).addTo(metroLayer);
+L.marker(metroMid1, {
+  icon: L.divIcon({ className: '', html: '<div style="background:#E4007F;color:#fff;padding:1px 6px;border-radius:8px;font-size:0.55rem;font-weight:700;white-space:nowrap">🚇 地铁2号线</div>', iconSize:[0,0], iconAnchor:[40,7] }),
+  interactive: false
+}).addTo(metroLayer);
+// 万家丽广场→芙蓉广场(零食王国)
+const metroMid2 = [(LOC.hotelCS.lat + LOC.snackKingdom.lat)/2, (LOC.hotelCS.lng + LOC.snackKingdom.lng)/2];
+L.polyline([[LOC.hotelCS.lat, LOC.hotelCS.lng],[LOC.snackKingdom.lat, LOC.snackKingdom.lng]], {
+  color: '#E4007F', weight: 2.5, opacity: 0.5, dashArray: '6 5', lineJoin: 'round'
+}).addTo(metroLayer);
+L.marker(metroMid2, {
+  icon: L.divIcon({ className: '', html: '<div style="background:#E4007F;color:#fff;padding:1px 6px;border-radius:8px;font-size:0.55rem;font-weight:700;white-space:nowrap">🚇 地铁2号线</div>', iconSize:[0,0], iconAnchor:[40,7] }),
+  interactive: false
+}).addTo(metroLayer);
+
 // ── Toggle ──
 const cardEls = {};
 for (let d=1; d<=7; d++) cardEls[d] = document.querySelector(`.day-card[data-day="${d}"]`);
@@ -373,10 +407,12 @@ window.toggleDay = function(day) {
     card.classList.remove('active');
     map.removeLayer(routeLayers[day]); map.removeLayer(markerLayers[day]);
     if (day === 3 || day === 4) map.removeLayer(trainLayer);
+    if (day === 1) map.removeLayer(metroLayer);
   } else {
     card.classList.add('active');
     routeLayers[day].addTo(map); markerLayers[day].addTo(map);
     if (day === 3 || day === 4) trainLayer.addTo(map);
+    if (day === 1) metroLayer.addTo(map);
   }
 };
 
