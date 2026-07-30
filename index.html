@@ -219,17 +219,17 @@ const DAYS = {
 const LOC = {
   // ═══ 长沙 ═══
   csSouth:      { lat: 28.1501, lng: 113.0599, label: '长沙南站',           sub: '高铁站 · 8/13 抵达 · 8/15 出发去张家界', day: 1, reserve: false },
-  hotelCS:      { lat: 28.1945, lng: 113.0255, label: '🏨 汉庭·万家丽地铁站扬帆夜市', sub: '长沙住宿(8/13-14) · 紧邻2号线万家丽广场站 · 步行到杨帆夜市', day: 1, reserve: false },
-  ifs:          { lat: 28.1954, lng: 112.9734, label: 'IFS国金中心',         sub: 'KAWS雕塑 · 网红打卡 · 452m长沙第一高楼(Wikipedia坐标)', day: 1, reserve: false },
-  snackKingdom: { lat: 28.1965, lng: 112.9775, label: '零食王国',            sub: '🍬 芙蓉广场西南角(原百盛) · 全球最大零食店 · 吉尼斯认证', day: 1, reserve: false },
+  hotelCS:      { lat: 28.1950, lng: 113.0250, label: '🏨 汉庭·万家丽地铁站扬帆夜市', sub: '长沙住宿(8/13-14) · 近地铁2号线 · 步行到杨帆夜市', day: 1, reserve: false },
+  ifs:          { lat: 28.1957, lng: 112.9731, label: 'IFS国金中心',         sub: 'KAWS雕塑 · 网红打卡 · 高端商场', day: 1, reserve: false },
+  snackKingdom: { lat: 28.1975, lng: 112.9790, label: '零食王国',            sub: '🍬 芙蓉广场西南角 · 全球最大零食店 · 吉尼斯认证', day: 1, reserve: false },
   wuyiSquare:   { lat: 28.1986, lng: 112.9709, label: '五一广场',            sub: '长沙市中心 · 人超多', day: 1, reserve: false },
   taipingSt:    { lat: 28.1971, lng: 112.9663, label: '太平街',             sub: '老街小吃 · 糖油粑粑 · 茶颜悦色 · 步行街', day: 1, reserve: false },
   poziSt:       { lat: 28.1935, lng: 112.9684, label: '坡子街',             sub: '美食街 · 火宫殿臭豆腐 · 擂茶', day: 1, reserve: false },
-  dongmaoSt:    { lat: 28.1942, lng: 112.9725, label: '东茅街',             sub: '地道湘菜 · 笨萝卜 · 一盏灯(辣!) · 特色小吃', day: 1, reserve: false },
+  dongmaoSt:    { lat: 28.1950, lng: 112.9708, label: '东茅街',             sub: '地道湘菜 · 笨萝卜 · 一盏灯(辣!) · 特色小吃', day: 1, reserve: false },
   yueluMtn:     { lat: 28.1910, lng: 112.9309, label: '岳麓山',             sub: '⛰️ 爱晚亭 · 岳麓书院 · 登高望远', day: 2, reserve: true, reserveNote: '⚠️ 需提前3天预约' },
   hunanUniv:    { lat: 28.1795, lng: 112.9404, label: '湖南大学',            sub: '千年学府 · 开放式校园 · 麓山南路美食', day: 2, reserve: false },
   orangeIsle:   { lat: 28.1897, lng: 112.9561, label: '橘子洲',             sub: '🍊 毛泽东青年雕像 · 湘江风光带', day: 2, reserve: true, reserveNote: '⚠️ 需提前3天预约' },
-  yangfanMarket:{ lat: 28.1928, lng: 113.0272, label: '杨帆夜市',            sub: '🌃 芙蓉区荷花路369号 · 长沙最大网红夜市 · 500+摊位 · 18:00-24:00', day: 2, reserve: false },
+  yangfanMarket:{ lat: 28.1920, lng: 113.0280, label: '杨帆夜市',            sub: '🌃 芙蓉区古曲路 · 长沙最大网红夜市 · 500+摊位 · 18:00-24:00', day: 2, reserve: false },
   hunanMuseum:  { lat: 28.2153, lng: 112.9880, label: '湖南省博物馆',         sub: '马王堆汉墓 · 辛追夫人 · 湘楚文化', day: 3, reserve: true, reserveNote: '⚠️ 需提前7天预约！' },
   kaifuTemple:  { lat: 28.2280, lng: 112.9726, label: '古开福寺',           sub: '长沙最古老佛教寺庙 · 千年古刹', day: 3, reserve: false },
 
@@ -263,78 +263,25 @@ for (const key of Object.keys(LOC)) {
   LOC[key].lat = gc[0]; LOC[key].lng = gc[1];
 }
 
-// ── 长沙地铁路线（多段折线模拟地铁走向）──
-// Line 2 各站坐标 (WGS-84, 会被转GCJ-02)
-const M2 = {
-  south:    [28.1501, 113.0599], // 长沙火车南站
-  duhua:    [28.155,  113.054],
-  dadao:    [28.165,  113.040],
-  renmin:   [28.178,  113.030],
-  wanjiali: [28.195,  113.025], // 万家丽广场站
-  jintai:   [28.193,  113.012],
-  huoche:   [28.194,  113.007], // 长沙火车站
-  yuanjia:  [28.195,  112.997],
-  yingbin:  [28.196,  112.989],
-  furong:   [28.198,  112.979], // 芙蓉广场站
-  wuyi:     [28.199,  112.971], // 五一广场站
-  xiangjiang:[28.198, 112.965],
-  juzizhou: [28.195,  112.962], // 橘子洲站
-  yingwan:  [28.199,  112.948], // 溁湾镇站
-};
-// Line 4 (湖南大学附近)
-const M4 = {
-  hunanUniv: [28.182,  112.943], // 湖南大学站
-  fubuhe:   [28.170,  112.947], // 阜埠河站(换乘2号线)
-};
-// Line 1 (开福寺附近)
-const M1 = {
-  kaifu:    [28.226,  112.974], // 开福寺站
-  wuyiL1:   [28.199,  112.971], // 五一广场站(换乘)
-};
-
-// 转换地铁站坐标
-function g(arr) { const c = wgs2gcj(arr[0], arr[1]); return c; }
-for (const k of Object.keys(M2)) M2[k] = g(M2[k]);
-for (const k of Object.keys(M4)) M4[k] = g(M4[k]);
-for (const k of Object.keys(M1)) M1[k] = g(M1[k]);
-
 // ── 路线 ──
 const ROUTES = {
-  1: [ // 8/13
-    // 🚇 南站→万家丽(Line 2)
-    [M2.south, M2.duhua, M2.dadao, M2.renmin, M2.wanjiali],
-    // 🚇 万家丽→芙蓉广场(Line 2)
-    [M2.wanjiali, M2.jintai, M2.huoche, M2.yuanjia, M2.yingbin, M2.furong],
-    // 🚶 芙蓉广场→零食王国(步行)
+  1: [ // 8/13 长沙城市
+    [[LOC.csSouth.lat, LOC.csSouth.lng], [LOC.hotelCS.lat, LOC.hotelCS.lng]],
+    [[LOC.hotelCS.lat, LOC.hotelCS.lng], [LOC.snackKingdom.lat, LOC.snackKingdom.lng]],
     [[LOC.snackKingdom.lat, LOC.snackKingdom.lng], [LOC.ifs.lat, LOC.ifs.lng]],
-    // 🚶 IFS→五一广场(步行)
-    [[LOC.ifs.lat, LOC.ifs.lng], [M2.wuyi]],
-    // 🚶 五一广场→太平街→坡子街→东茅街(步行)
+    [[LOC.ifs.lat, LOC.ifs.lng], [LOC.wuyiSquare.lat, LOC.wuyiSquare.lng]],
     [[LOC.wuyiSquare.lat, LOC.wuyiSquare.lng], [LOC.taipingSt.lat, LOC.taipingSt.lng]],
     [[LOC.taipingSt.lat, LOC.taipingSt.lng], [LOC.poziSt.lat, LOC.poziSt.lng]],
     [[LOC.poziSt.lat, LOC.poziSt.lng], [LOC.dongmaoSt.lat, LOC.dongmaoSt.lng]],
   ],
-  2: [ // 8/14
-    // 🚇 万家丽→溁湾镇(Line 2: 万家丽→五一广场→溁湾镇)
-    [M2.wanjiali, M2.jintai, M2.huoche, M2.yuanjia, M2.yingbin, M2.furong, M2.wuyi, M2.xiangjiang, M2.yingwan],
-    // 🚶 溁湾镇→岳麓山(步行/公交)
-    [M2.yingwan, [LOC.yueluMtn.lat, LOC.yueluMtn.lng]],
-    // 🚶 岳麓山→湖南大学(步行)
+  2: [ // 8/14 岳麓山+橘子洲+杨帆夜市
     [[LOC.yueluMtn.lat, LOC.yueluMtn.lng], [LOC.hunanUniv.lat, LOC.hunanUniv.lng]],
-    // 🚇 湖南大学→橘子洲(Line4→Line2: 湖南大学→阜埠河→橘子洲)
-    [[LOC.hunanUniv.lat, LOC.hunanUniv.lng], M4.fubuhe, M2.juzizhou],
-    // 🚇 橘子洲→万家丽(Line 2: 橘子洲→五一广场→万家丽)
-    [M2.juzizhou, M2.wuyi, M2.furong, M2.yingbin, M2.yuanjia, M2.huoche, M2.jintai, M2.wanjiali],
-    // 🚶 万家丽→杨帆夜市(步行)
-    [[LOC.hotelCS.lat, LOC.hotelCS.lng], [LOC.yangfanMarket.lat, LOC.yangfanMarket.lng]],
+    [[LOC.hunanUniv.lat, LOC.hunanUniv.lng], [LOC.orangeIsle.lat, LOC.orangeIsle.lng]],
+    [[LOC.orangeIsle.lat, LOC.orangeIsle.lng], [LOC.yangfanMarket.lat, LOC.yangfanMarket.lng]],
   ],
-  3: [ // 8/15
-    // 🚇 省博→开福寺(附近站→Line1)
-    [[LOC.hunanMuseum.lat, LOC.hunanMuseum.lng], M2.yingbin, M2.wuyi, M1.kaifu],
-    // 🚶 到开福寺
-    [M1.kaifu, [LOC.kaifuTemple.lat, LOC.kaifuTemple.lng]],
-    // 🚇 开福寺→长沙南站(Line1→Line2: 开福寺→五一广场→南站)
-    [M1.kaifu, M1.wuyiL1, M2.furong, M2.yingbin, M2.yuanjia, M2.huoche, M2.jintai, M2.wanjiali, M2.renmin, M2.dadao, M2.duhua, M2.south],
+  3: [ // 8/15 省博+开福寺 → 高铁
+    [[LOC.hunanMuseum.lat, LOC.hunanMuseum.lng], [LOC.kaifuTemple.lat, LOC.kaifuTemple.lng]],
+    [[LOC.kaifuTemple.lat, LOC.kaifuTemple.lng], [LOC.csSouth.lat, LOC.csSouth.lng]],
   ],
   4: [ // 8/16 天门山
     // 西站 → 汉庭大庸古城酒店
@@ -407,49 +354,10 @@ for (const [key, loc] of Object.entries(LOC)) {
   }).bindPopup(popup).addTo(markerLayers[day]);
 }
 
-// ── 长沙地铁站可见标记（小圆点 + 站名）──
-const METRO_COLOR = '#E4007F';
-const metroStationLayer = L.layerGroup().addTo(map);
-const METRO_STATIONS = [
-  [M2.south[0], M2.south[1], '长沙火车南站', '🚇2/4号线'],
-  [M2.wanjiali[0], M2.wanjiali[1], '万家丽广场', '🚇2号线'],
-  [M2.furong[0], M2.furong[1], '芙蓉广场', '🚇2号线'],
-  [M2.wuyi[0], M2.wuyi[1], '五一广场', '🚇1/2号线换乘'],
-  [M2.juzizhou[0], M2.juzizhou[1], '橘子洲', '🚇2号线'],
-  [M2.yingwan[0], M2.yingwan[1], '溁湾镇', '🚇2号线 · 近岳麓山'],
-  [M4.hunanUniv[0], M4.hunanUniv[1], '湖南大学', '🚇4号线'],
-  [M4.fubuhe[0], M4.fubuhe[1], '阜埠河', '🚇4号线换乘'],
-  [M1.kaifu[0], M1.kaifu[1], '开福寺', '🚇1号线'],
-  [M2.huoche[0], M2.huoche[1], '长沙火车站', '🚇2号线'],
-];
-METRO_STATIONS.forEach(([lat, lng, name, line]) => {
-  // 粉色圆点 + 白色中心
-  L.circleMarker([lat, lng], {
-    radius: 7, color: METRO_COLOR, fillColor: '#fff', fillOpacity: 1, weight: 3,
-  }).bindTooltip(`<b>🚇 ${name}</b><br><span style="font-size:0.65rem;color:#888">${line}</span>`, {
-    direction: 'top', offset: [0, -10], permanent: false,
-  }).addTo(metroStationLayer);
-  // 站名标签（缩小字号）
-  L.marker([lat, lng], {
-    icon: L.divIcon({
-      className: '', html: `<div style="font-size:0.5rem;color:#E4007F;font-weight:600;white-space:nowrap;text-shadow:0 0 3px #fff;transform:translate(-50%,-18px)">${name}</div>`,
-      iconSize: [0,0], iconAnchor: [0,0],
-    }),
-    interactive: false,
-  }).addTo(metroStationLayer);
-});
-
 // ── Routes ──
 for (const [day, segs] of Object.entries(ROUTES)) {
   for (const seg of segs) {
-    const isMetro = (day <= 3 && seg.length > 2); // 长沙地铁段（多点折线=地铁，2点=步行）
-    L.polyline(seg, {
-      color: isMetro ? METRO_COLOR : DAYS[day].color,
-      weight: isMetro ? 2.5 : 3,
-      opacity: isMetro ? 0.6 : 0.65,
-      dashArray: isMetro ? '8 5' : null,
-      lineJoin: 'round', lineCap: 'round',
-    }).addTo(routeLayers[day]);
+    L.polyline(seg, { color: DAYS[day].color, weight: 3, opacity: 0.65, lineJoin: 'round', lineCap: 'round' }).addTo(routeLayers[day]);
   }
 }
 
@@ -467,49 +375,25 @@ L.marker([midLat, midLng], {
   interactive: false,
 }).addTo(trainLayer);
 
-// ── 长沙地铁标签 ──
-const metroLabelLayer = L.layerGroup().addTo(map);
-// 在地铁中段放置标签
-const mlabel1 = [(M2.south[0]+M2.wanjiali[0])/2, (M2.south[1]+M2.wanjiali[1])/2];
-const mlabel2 = [(M2.wanjiali[0]+M2.furong[0])/2, (M2.wanjiali[1]+M2.furong[1])/2];
-L.marker(mlabel1, {
-  icon: L.divIcon({ className: '', html: '<div style="background:#E4007F;color:#fff;padding:1px 5px;border-radius:6px;font-size:0.5rem;font-weight:700;white-space:nowrap">🚇 2号线</div>', iconSize:[0,0], iconAnchor:[28,7] }),
-  interactive: false
-}).addTo(metroLabelLayer);
-L.marker(mlabel2, {
-  icon: L.divIcon({ className: '', html: '<div style="background:#E4007F;color:#fff;padding:1px 5px;border-radius:6px;font-size:0.5rem;font-weight:700;white-space:nowrap">🚇 2号线</div>', iconSize:[0,0], iconAnchor:[28,7] }),
-  interactive: false
-}).addTo(metroLabelLayer);
-
 // ── Toggle ──
 const cardEls = {};
 for (let d=1; d<=7; d++) cardEls[d] = document.querySelector(`.day-card[data-day="${d}"]`);
-function updateMetroLayers() {
-  // 只要有一个长沙日(1-3)还在显示，就显示地铁图层
-  const anyCS = [1,2,3].some(d => cardEls[d].classList.contains('active'));
-  if (anyCS) {
-    metroLabelLayer.addTo(map); metroStationLayer.addTo(map);
-  } else {
-    map.removeLayer(metroLabelLayer); map.removeLayer(metroStationLayer);
-  }
-}
 window.toggleDay = function(day) {
   const card = cardEls[day], active = card.classList.contains('active');
   if (active) {
     card.classList.remove('active');
     map.removeLayer(routeLayers[day]); map.removeLayer(markerLayers[day]);
-    if ((day === 3 || day === 4) && !cardEls[3].classList.contains('active') && !cardEls[4].classList.contains('active')) map.removeLayer(trainLayer);
+    if (day === 3 || day === 4) map.removeLayer(trainLayer);
   } else {
     card.classList.add('active');
     routeLayers[day].addTo(map); markerLayers[day].addTo(map);
     if (day === 3 || day === 4) trainLayer.addTo(map);
   }
-  updateMetroLayers();
 };
 
 // ── Legend ──
 const legendDiv = document.createElement('div'); legendDiv.className = 'legend-bar';
-let h = '<span style="color:#6b7280;font-weight:700">🔴=需预约&nbsp;</span><span style="color:#E4007F">—— 🚇 地铁&nbsp;</span>';
+let h = '<span style="color:#6b7280;font-weight:700">🔴=需预约&nbsp;</span>';
 for (const [day, info] of Object.entries(DAYS)) {
   h += `<span><span class="legend-dot" style="background:${info.color}"></span>${info.name}</span>`;
 }
