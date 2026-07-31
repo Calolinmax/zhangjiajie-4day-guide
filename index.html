@@ -172,10 +172,10 @@
 
   <div class="day-card active" data-day="7" style="color: var(--zj-4);" onclick="toggleDay(7)">
     <span class="day-badge" style="background:var(--zj-4)">📍 8/19 · Day 4</span>
-    <div class="day-title">大峡谷 → 返程 → 回家🏠</div>
-    <div class="day-route">酒店3 → 大峡谷 → 玻璃桥 → 滑索 → 回酒店3(取行李) → 西站 → 信阳东站 → 息县</div>
+    <div class="day-title">返程 · 回家🏠</div>
+    <div class="day-route">酒店3 → 张家界西站(早上) → 信阳东站 → 息县</div>
     <div class="day-stops">
-      <span class="stop-tag">① 大峡谷</span><span class="stop-tag">② 玻璃桥</span><span class="stop-tag">③ 滑索</span>
+      <span class="stop-tag">① 西站</span><span class="stop-tag">② 信阳东站</span><span class="stop-tag">③ 息县🏠</span>
     </div>
   </div>
 
@@ -201,7 +201,7 @@ const DAYS = {
   4: { color: '#E85D3A', name: '8/16 张家界·天门山' },
   5: { color: '#3B82C4', name: '8/17 张家界·武陵源上' },
   6: { color: '#2D8B5E', name: '8/18 张家界·武陵源下' },
-  7: { color: '#7B4FBF', name: '8/19 张家界·大峡谷' },
+  7: { color: '#7B4FBF', name: '8/19 返程·回家' },
 };
 
 // ── 所有地点（WGS-84, 来自 Nominatim）──
@@ -299,11 +299,7 @@ const ROUTES = {
     [[LOC.huangshiTop.lat, LOC.huangshiTop.lng], [LOC.goldenWhip.lat, LOC.goldenWhip.lng]],
     [[LOC.goldenWhip.lat, LOC.goldenWhip.lng], [LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng]],
   ],
-  7: [ // 8/19 酒店3→大峡谷→玻璃桥→回酒店3→西站→信阳→息县
-    [[LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng], [LOC.grandCanyon.lat, LOC.grandCanyon.lng]],
-    [[LOC.grandCanyon.lat, LOC.grandCanyon.lng], [LOC.glassBridge.lat, LOC.glassBridge.lng]],
-    [[LOC.glassBridge.lat, LOC.glassBridge.lng], [LOC.zipline.lat, LOC.zipline.lng]],
-    [[LOC.zipline.lat, LOC.zipline.lng], [LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng]],
+  7: [ // 8/19 酒店3→西站(早上)→信阳→息县
     [[LOC.hotelZJJ2.lat, LOC.hotelZJJ2.lng], [LOC.zjjWest.lat, LOC.zjjWest.lng]],
     [[LOC.zjjWest.lat, LOC.zjjWest.lng], [LOC.xinyang.lat, LOC.xinyang.lng]],
     [[LOC.xinyang.lat, LOC.xinyang.lng], [LOC.xixian.lat, LOC.xixian.lng]],
